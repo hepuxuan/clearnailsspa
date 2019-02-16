@@ -3,8 +3,9 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "dev": "nodemon ./bin/dev",
-    "build": "parcel build src/client/scripts.html",
+    "dev": "npm run clean && nodemon ./bin/dev",
+    "clean": "rm -rf dist",
+    "build": "npm run clean && parcel build src/client/scripts.html",
     "start": "pm2 start ./bin/www",
     "kill": "pm2 stop all"
   },

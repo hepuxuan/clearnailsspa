@@ -27,15 +27,12 @@ app.use("/api/schedule", scheduleRouter);
 // setup parcel in dev env
 if (process.env.NODE_ENV === "development") {
   const bundler = new Bundler(
-    path.resolve(__dirname, "../client/scripts.html"),
-    {
-      outDir: path.resolve(__dirname, "../../dist")
-    }
+    path.resolve(__dirname, "../client/scripts.html")
   );
   app.use(bundler.middleware());
+} else {
+  app.use(express.static(path.resolve(__dirname, "../../dist")));
 }
-
-app.use(express.static(path.resolve(__dirname, "../../dist")));
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {
