@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "nodemon ./bin/dev",
-    "build": "parcel build src/server/views/scripts.html --out-dir src/server/views/dist",
+    "build": "parcel build src/client/scripts.html",
     "start": "pm2 start ./bin/www",
     "kill": "pm2 stop all"
   },
@@ -21,9 +21,14 @@
     "react": "^16.8.2",
     "react-dom": "^16.8.2"
   },
+  "devDependencies": {
+    "autoprefixer": "^9.4.7",
+    "eslint-config-prettier": "^4.0.0",
+    "postcss-modules": "^1.4.1"
+  },
   "nodemonConfig": {
     "ignore": [
-      "src/server/views/dist/*"
+      "dist/*"
     ]
   }
 }
