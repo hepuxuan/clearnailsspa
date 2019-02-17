@@ -1,16 +1,15 @@
-"use strict";
-
 module.exports = {
   up: (queryInterface, Sequelize) => {
     return queryInterface.bulkInsert(
-      "Schedules",
+      "Appointments",
       [
         {
           id: 1,
+          startDateTime: new Date("2019-02-17T06:00:00"),
+          endDateTime: new Date("2019-02-17T06:00:00"),
           staffId: 1,
-          startTime: "9:00",
-          endTime: "18:00",
-          day: "Mon",
+          serviceId: 1,
+          customerId: 1,
           createdAt: new Date(),
           updatedAt: new Date()
         }
@@ -20,6 +19,6 @@ module.exports = {
   },
 
   down: (queryInterface, Sequelize) => {
-    return queryInterface.bulkDelete("Schedules", null, {});
+    return queryInterface.bulkDelete("Appointments", null, {});
   }
 };

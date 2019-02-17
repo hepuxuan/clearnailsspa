@@ -1,5 +1,3 @@
-"use strict";
-
 module.exports = {
   up: (queryInterface, Sequelize) => {
     return queryInterface.bulkInsert(
@@ -8,6 +6,7 @@ module.exports = {
         {
           id: 1,
           name: "Spa Manicure",
+          categoryId: 1,
           duration: 30,
           description: "",
           price: 26,

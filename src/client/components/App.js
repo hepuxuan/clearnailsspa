@@ -9,10 +9,8 @@ class App extends React.Component {
         <label>
           Pick a service:
           <select>
-            {window.__SERVER_DATA__.services.map(service => (
-              <option key={service.id}>
-                {service.name}:${service.price}
-              </option>
+            {window.__SERVER_DATA__.categories.map(category => (
+              <option key={category.id}>{category.name}</option>
             ))}
           </select>
         </label>

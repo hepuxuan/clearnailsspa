@@ -1,28 +1,13 @@
 const express = require("express");
 const router = express.Router();
-const {
-  Schedule,
-  Service,
-  Appointment,
-  Customer,
-  Staff
-} = require("../models");
+const { getCategories } = require("../services/category");
 
 /* GET home page. */
 router.get("/", async (req, res, next) => {
-  // test db models
-  const [schedules, services, appointments] = await Promise.all([
-    Schedule.findAll({
-      include: [{ model: Staff }]
-    }),
-    Service.findAll(),
-    Appointment.findAll({
-      include: [{ model: Service }, { model: Staff }, { model: Customer }]
-    })
-  ]);
+  const categories = await getCategories();
   res.render("index", {
     title: "Clear Nails Spa",
-    serverData: JSON.stringify({ schedules, services, appointments })
+    serverData: JSON.stringify({ categories })
   });
 });
 
