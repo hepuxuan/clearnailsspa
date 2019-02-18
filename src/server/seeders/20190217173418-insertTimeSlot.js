@@ -1,19 +1,21 @@
 module.exports = {
   up: (queryInterface, Sequelize) => {
     return queryInterface.bulkInsert(
-      "Staffs",
+      "TimeSlots",
       [
         {
           id: 1,
-          name: "Wenyu Duan",
-          photo: "",
+          name: "9:00 - 10:00",
+          start: "9:00",
+          end: "10:00",
           createdAt: new Date(),
           updatedAt: new Date()
         },
         {
           id: 2,
-          name: "Haopeng Wang",
-          photo: "",
+          name: "10:00 - 11:00",
+          start: "10:00",
+          end: "11:00",
           createdAt: new Date(),
           updatedAt: new Date()
         }
@@ -23,6 +25,6 @@ module.exports = {
   },
 
   down: (queryInterface, Sequelize) => {
-    return queryInterface.bulkDelete("Staffs", null, {});
+    return queryInterface.bulkDelete("TimeSlot", null, {});
   }
 };

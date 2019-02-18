@@ -5,7 +5,9 @@ const cookieParser = require("cookie-parser");
 const logger = require("morgan");
 const indexRouter = require("./routes/index");
 const scheduleRouter = require("./routes/apis/schedule");
+const appointmentRouter = require("./routes/apis/appointment");
 const Bundler = require("parcel-bundler");
+// const bodyParser = require("body-parser");
 
 const app = express();
 
@@ -17,12 +19,18 @@ app.use(logger("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false, sourceMaps: true }));
 app.use(cookieParser());
-
+// app.use(
+//   bodyParser.urlencoded({
+//     extended: true
+//   })
+// );
+// app.use(bodyParser.json());
 // app router
 app.use("/", indexRouter);
 
 // api routers
 app.use("/api/schedule", scheduleRouter);
+app.use("/api/appointment", appointmentRouter);
 
 // setup parcel in dev env
 if (process.env.NODE_ENV === "development") {

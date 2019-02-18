@@ -1,11 +1,19 @@
 const express = require("express");
+const { getAvailableTimeSlot } = require("../../services/timeslot");
 
 const router = express.Router();
 
-router.get("/available", (req, res) => {
-  res.json({
-    availables: ["8:00-9:00"]
-  });
+router.get("/available", async (req, res) => {
+  try {
+    const availables = await getAvailableTimeSlot(req.query.date);
+    res.json({
+      availables
+    });
+  } catch {
+    res.status(500).json({
+      err: "INTERNAL_ERROR"
+    });
+  }
 });
 
 module.exports = router;

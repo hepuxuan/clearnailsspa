@@ -7,22 +7,9 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      startDateTime: {
-        allowNull: false,
-        type: Sequelize.DATE
-      },
-      endDateTime: {
-        allowNull: false,
-        type: Sequelize.DATE
-      },
-      staffId: {
-        type: Sequelize.INTEGER,
-        references: {
-          model: "staffs",
-          key: "id"
-        },
-        onUpdate: "CASCADE",
-        onDelete: "SET NULL"
+      date: {
+        type: Sequelize.DATE,
+        allowNull: false
       },
       serviceId: {
         type: Sequelize.INTEGER,

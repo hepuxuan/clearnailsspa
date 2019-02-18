@@ -12,10 +12,17 @@
     "seed": "(cd src/server && sequelize db:seed:all)"
   },
   "dependencies": {
+    "@types/lodash": "^4.14.121",
+    "@types/moment": "^2.13.0",
+    "@types/react": "^16.8.3",
+    "@types/react-dom": "^16.8.2",
     "cookie-parser": "~1.4.3",
     "debug": "~2.6.9",
     "express": "~4.16.0",
+    "formik": "^1.5.1",
     "http-errors": "~1.6.2",
+    "lodash": "^4.17.11",
+    "moment": "^2.24.0",
     "morgan": "~1.9.0",
     "mysql2": "^1.6.5",
     "nodemon": "^1.18.10",
@@ -35,7 +42,8 @@
     "babel-preset-react": "^6.24.1",
     "babel-preset-react-app": "^7.0.1",
     "eslint-config-prettier": "^4.0.0",
-    "postcss-modules": "^1.4.1"
+    "postcss-modules": "^1.4.1",
+    "typescript": "^3.3.3"
   },
   "nodemonConfig": {
     "ignore": [
