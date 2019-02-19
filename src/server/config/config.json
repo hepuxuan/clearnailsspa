@@ -4,20 +4,23 @@
     "password": "password",
     "database": "clearnailsspa",
     "host": "localhost",
-    "dialect": "mysql"
+    "dialect": "sqlite",
+    "storage": "../db"
   },
   "test": {
     "username": "root",
     "password": null,
     "database": "clearnailsspa",
     "host": "localhost",
-    "dialect": "mysql"
+    "dialect": "sqlite",
+    "storage": "../db"
   },
   "production": {
     "username": "root",
     "password": null,
     "database": "clearnailsspa",
     "host": "localhost",
-    "dialect": "mysql"
+    "dialect": "sqlite",
+    "storage": "../db"
   }
 }
