@@ -48,6 +48,9 @@ class Book extends React.Component<{}> {
   };
 
   public searchAvailability = async (date: string) => {
+    if (!moment(date, "YYYY-MM-DD").isValid()) {
+      return;
+    }
     this.setState({
       isSearching: true
     });
@@ -86,11 +89,21 @@ class Book extends React.Component<{}> {
                   category => category.id === +values.categoryId
                 );
                 const availableStaff = uniqBy(
-                  this.state.availables.map(a => a.staff),
+                  this.state.availables
+                    .filter(
+                      a =>
+                        values.timeSlotId < 0 ||
+                        a.timeSlot.id === +values.timeSlotId
+                    )
+                    .map(a => a.staff),
                   s => s.id
                 );
                 const availableTimeSlot = uniqBy(
-                  this.state.availables.map(a => a.timeSlot),
+                  this.state.availables
+                    .filter(
+                      a => values.staffId < 0 || a.staff.id === +values.staffId
+                    )
+                    .map(a => a.timeSlot),
                   t => t.id
                 );
                 return (
@@ -112,36 +125,42 @@ class Book extends React.Component<{}> {
                         </select>
                       </label>
                     </div>
-                    {selectedCategory && (
-                      <div>
-                        <label>
-                          Pick a service:
-                          <select
-                            name="serviceId"
-                            value={values.serviceId}
-                            onChange={handleChange}
-                          >
-                            <option value="-1" />
-                            {selectedCategory.services.map(service => (
+                    <div>
+                      <label>
+                        Pick a service:
+                        <select
+                          name="serviceId"
+                          value={values.serviceId}
+                          onChange={handleChange}
+                        >
+                          <option value="-1" />
+                          {selectedCategory &&
+                            selectedCategory.services.map(service => (
                               <option value={service.id} key={service.id}>
                                 {service.name}
                               </option>
                             ))}
-                          </select>
-                        </label>
-                      </div>
-                    )}
+                        </select>
+                      </label>
+                    </div>
                     <div>
                       <label>
-                        Date:
-                        <input
+                        Pick a Date:
+                        <select
                           name="date"
                           value={values.date}
                           onChange={e => {
                             handleChange(e);
                             this.searchAvailability(e.target.value);
                           }}
-                        />
+                        >
+                          <option value="-1" />
+                          {context.availableDates.map(date => (
+                            <option value={date} key={date}>
+                              {date}
+                            </option>
+                          ))}
+                        </select>
                       </label>
                     </div>
                     {!!availableTimeSlot.length && (
@@ -163,60 +182,57 @@ class Book extends React.Component<{}> {
                         </label>
                       </div>
                     )}
-                    {!!availableStaff.length && (
-                      <div>
-                        <label>
-                          Pick an available Staff:
-                          <select
-                            name="staffId"
-                            value={values.staffId}
-                            onChange={handleChange}
-                          >
-                            <option value="-1" />
-                            {availableStaff.map(staff => (
+                    <div>
+                      <label>
+                        Pick an available Staff:
+                        <select
+                          name="staffId"
+                          value={values.staffId}
+                          onChange={handleChange}
+                        >
+                          <option value="-1" />
+                          {availableStaff.length &&
+                            availableStaff.map(staff => (
                               <option value={staff.id} key={staff.id}>
                                 {staff.name}
                               </option>
                             ))}
-                          </select>
+                        </select>
+                      </label>
+                    </div>
+                    <>
+                      <div>
+                        <label>
+                          Your Name:
+                          <input
+                            name="name"
+                            value={values.name}
+                            onChange={handleChange}
+                          />
                         </label>
                       </div>
-                    )}
-                    {values.timeSlotId > 0 && (
-                      <>
-                        <div>
-                          <label>
-                            Your Name:
-                            <input
-                              name="name"
-                              value={values.name}
-                              onChange={handleChange}
-                            />
-                          </label>
-                        </div>
-                        <div>
-                          <label>
-                            Your Phone Number:
-                            <input
-                              name="phone"
-                              value={values.phone}
-                              onChange={handleChange}
-                            />
-                          </label>
-                        </div>
-                        <div>
-                          <label>
-                            Your Email:
-                            <input
-                              name="email"
-                              value={values.email}
-                              onChange={handleChange}
-                            />
-                          </label>
-                        </div>
-                        <button type="submit">Book</button>
-                      </>
-                    )}
+                      <div>
+                        <label>
+                          Your Phone Number:
+                          <input
+                            name="phone"
+                            value={values.phone}
+                            onChange={handleChange}
+                          />
+                        </label>
+                      </div>
+                      <div>
+                        <label>
+                          Your Email:
+                          <input
+                            name="email"
+                            value={values.email}
+                            onChange={handleChange}
+                          />
+                        </label>
+                      </div>
+                      <button type="submit">Book</button>
+                    </>
                   </form>
                 );
               }}

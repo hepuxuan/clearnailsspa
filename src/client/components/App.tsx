@@ -4,10 +4,12 @@ import { ServiceContext } from "../context/serviceContext";
 
 class App extends React.Component {
   render() {
+    const { categories, availableDates } = (window as any).__SERVER_DATA__;
     return (
       <ServiceContext.Provider
         value={{
-          categories: (window as any).__SERVER_DATA__.categories
+          categories,
+          availableDates
         }}
       >
         <Book />

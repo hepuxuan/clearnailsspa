@@ -1,18 +1,17 @@
-const Sequelize = require("sequelize");
 const { TimeSlot, Schedule, Appointment, Staff } = require("../models");
 const moment = require("moment");
-
-const Op = Sequelize.Op;
+const _ = require("lodash");
 
 async function getAvailableTimeSlot(date) {
+  // step1: get all appointments on that day
   const appointments = await Appointment.findAll({
     where: {
-      date: new Date(date)
+      date: date
     }
   });
-  const appointmentDates = appointments
-    .map(appointment => appointment.id)
-    .join(",");
+  const appointmentDates = appointments.map(appointment => appointment.id);
+
+  // step2: get all schedules on that day
   const schedules = await Schedule.findAll({
     include: [
       {
@@ -25,19 +24,18 @@ async function getAvailableTimeSlot(date) {
         model: Appointment
       }
     ],
-    where: appointmentDates
-      ? {
-          day: moment(date).format("ddd"),
-          [Op.and]: [
-            Sequelize.literal(`Appointment.id not in (${appointmentDates})`)
-          ]
-        }
-      : {
-          day: moment(date).format("ddd")
-        }
+    where: {
+      day: moment(date).format("ddd")
+    }
   });
 
-  return schedules.map(({ id, day, Staff, TimeSlot }) => ({
+  // step3: filter schedules that have appointments
+  const availableSchedules = schedules.filter(
+    schedule =>
+      !schedule.Appointments.find(a => appointmentDates.includes(a.id))
+  );
+
+  return availableSchedules.map(({ id, day, Staff, TimeSlot }) => ({
     id,
     day,
     staff: Staff,
@@ -45,6 +43,21 @@ async function getAvailableTimeSlot(date) {
   }));
 }
 
+async function getAvailableDaysInNext2Weeks() {
+  const list = _.range(14).map(i =>
+    moment()
+      .add(i, "days")
+      .format("YYYY-MM-DD")
+  );
+
+  const result = await Promise.all(
+    list.map(date => getAvailableTimeSlot(date))
+  );
+
+  return list.filter((_, index) => !!result[index].length);
+}
+
 module.exports = {
-  getAvailableTimeSlot
+  getAvailableTimeSlot,
+  getAvailableDaysInNext2Weeks
 };

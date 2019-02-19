@@ -7,7 +7,7 @@ module.exports = {
           id: 1,
           scheduleId: 1,
           customerId: 1,
-          date: new Date("2019-03-01"),
+          date: "2019-03-01",
           createdAt: new Date(),
           updatedAt: new Date()
         }

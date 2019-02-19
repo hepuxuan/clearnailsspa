@@ -19,9 +19,8 @@ async function createAppointment(request) {
       name: request.name
     });
   }
-
   return Appointment.create({
-    date: new Date(request.date),
+    date: request.date,
     ServiceId: request.serviceId,
     CustomerId: existingCustomer.id,
     ScheduleId: request.scheduleId

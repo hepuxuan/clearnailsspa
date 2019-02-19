@@ -6,7 +6,8 @@
     "dev": "npm run clean && nodemon ./bin/dev",
     "clean": "rm -rf dist",
     "build": "npm run clean && parcel build src/client/scripts.html",
-    "start": "pm2 start ./bin/www",
+    "start": "npm run migrate & node ./bin/www",
+    "start-prod": "npm run migrate & pm2 start ./bin/www",
     "kill": "pm2 stop all",
     "migrate": "(cd src/server && sequelize db:migrate)",
     "seed": "(cd src/server && sequelize db:seed:all)"

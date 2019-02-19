@@ -1,45 +1,45 @@
 module.exports = {
   up: (queryInterface, Sequelize) => {
     return queryInterface.bulkInsert(
-      "Schedules",
+      "TimeSlots",
       [
         {
           id: 1,
-          staffId: 1,
-          timeSlotId: 1,
-          day: "Mon",
+          name: "9:00 - 10:00",
+          start: "9:00",
+          end: "10:00",
           createdAt: new Date(),
           updatedAt: new Date()
         },
         {
           id: 2,
-          staffId: 1,
-          timeSlotId: 2,
-          day: "Mon",
+          name: "10:00 - 11:00",
+          start: "10:00",
+          end: "11:00",
           createdAt: new Date(),
           updatedAt: new Date()
         },
         {
           id: 3,
-          staffId: 2,
-          timeSlotId: 1,
-          day: "Mon",
+          name: "12:00 - 13:00",
+          start: "12:00",
+          end: "13:00",
           createdAt: new Date(),
           updatedAt: new Date()
         },
         {
           id: 4,
-          staffId: 1,
-          timeSlotId: 1,
-          day: "Fri",
+          name: "13:00 - 14:00",
+          start: "13:00",
+          end: "14:00",
           createdAt: new Date(),
           updatedAt: new Date()
         },
         {
           id: 5,
-          staffId: 1,
-          timeSlotId: 2,
-          day: "Fri",
+          name: "14:00 - 15:00",
+          start: "14:00",
+          end: "15:00",
           createdAt: new Date(),
           updatedAt: new Date()
         }
@@ -49,6 +49,6 @@ module.exports = {
   },
 
   down: (queryInterface, Sequelize) => {
-    return queryInterface.bulkDelete("Schedules", null, {});
+    return queryInterface.bulkDelete("TimeSlot", null, {});
   }
 };
