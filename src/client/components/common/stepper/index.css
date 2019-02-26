@@ -1,0 +1,50 @@
+.stepperRoot {
+  display: flex;
+  justify-content: space-around;
+  padding-top: 33px;
+  align-items: center;
+  max-width: 800px;
+  margin: auto;
+}
+
+.stepNumber {
+  font-size: 14px;
+  padding: 6px 10px;
+  text-align: center;
+  border-radius: 50%;
+  background: #e5e5e5;
+  color: #595959;
+  display: inline-block;
+}
+.active .stepDes {
+  color: #2597bb;
+}
+
+.active .stepNumber {
+  color: #fff;
+  background-color: #2597bb;
+}
+
+.dashLine {
+  width: 200px;
+  border-bottom: 1px dashed #c2c0c0;
+}
+
+.stepDes {
+  color: #c2c0c0;
+  font-size: 12px;
+  padding-top: 2px;
+}
+
+.singleStep {
+  text-align: center;
+}
+
+@media screen and (max-width: 768px) {
+  .dashLine {
+    display: none;
+  }
+  .mobileInvisible {
+    display: none;
+  }
+}

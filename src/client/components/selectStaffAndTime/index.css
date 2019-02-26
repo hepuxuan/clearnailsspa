@@ -1,0 +1,58 @@
+.subTitle {
+  text-align: center;
+  font-size: 20px;
+}
+
+.buttonList {
+  text-align: center;
+  width: 33%;
+}
+
+.buttonList > *:not(:last-child) {
+  margin-bottom: 12px;
+}
+
+.dateLabel {
+  font-size: 18px;
+}
+
+.datatimePicker {
+  margin: auto;
+  width: 800px;
+  margin-top: 36px;
+}
+
+.name {
+  text-align: center;
+  width: 20%;
+  background-color: #ccc;
+  padding: 20px;
+}
+
+.selectTable {
+  width: 70%;
+}
+
+.notAvailable {
+  color: #ccc;
+}
+
+.placeholder {
+  padding: 20px;
+  width: 20%;
+}
+
+.placeholderSmall {
+  width: 5%;
+  text-align: center;
+}
+
+.placeholderSmall button {
+  border: none;
+  font-size: 20px;
+}
+
+.photo {
+  width: 100px;
+  border-radius: 50%;
+}

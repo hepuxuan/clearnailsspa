@@ -1,0 +1,18 @@
+.title {
+  text-align: center;
+  margin: 0;
+  font-size: 24px;
+  color: #464646;
+  padding: 40px 0 10px 0;
+  font-weight: normal;
+}
+.subTitle {
+  font-size: 18px;
+  text-align: center;
+  color: #c4c4c4;
+}
+@media screen and (max-width: 768px) {
+  .title {
+    padding-top: 20px;
+  }
+}

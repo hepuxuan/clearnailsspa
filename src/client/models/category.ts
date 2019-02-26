@@ -1,7 +1,7 @@
 interface Category {
   id: number;
   name: string;
-  services: Service[];
+  image: string;
 }
 
 interface Service {
@@ -10,6 +10,7 @@ interface Service {
   duration: number;
   price: number;
   description: string;
+  categoryId: number;
 }
 
 export { Category, Service };

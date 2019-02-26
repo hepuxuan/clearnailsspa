@@ -1,0 +1,7 @@
+.category {
+  border-right: solid 1px black;
+}
+
+.buttonList > *:not(:last-child) {
+  margin-bottom: 12px;
+}

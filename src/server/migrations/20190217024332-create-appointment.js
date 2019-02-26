@@ -11,10 +11,10 @@ module.exports = {
         type: Sequelize.DATEONLY,
         allowNull: false
       },
-      serviceId: {
+      staffId: {
         type: Sequelize.INTEGER,
         references: {
-          model: "services",
+          model: "staffs",
           key: "id"
         },
         onUpdate: "CASCADE",

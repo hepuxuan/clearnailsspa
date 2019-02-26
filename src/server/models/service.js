@@ -13,6 +13,10 @@ module.exports = (sequelize, DataTypes) => {
     // associations can be defined here
     Service.hasMany(models.Appointment);
     Service.belongsTo(models.Category);
+    Service.belongsToMany(models.Appointment, {
+      through: "AppointmentServices",
+      foreignKey: "ServiceId"
+    });
   };
   return Service;
 };

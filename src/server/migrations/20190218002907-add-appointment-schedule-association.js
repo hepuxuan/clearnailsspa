@@ -1,9 +1,9 @@
 module.exports = {
   up: (queryInterface, Sequelize) => {
-    return queryInterface.addColumn("Appointments", "ScheduleId", {
+    return queryInterface.addColumn("Appointments", "TimeSlotId", {
       type: Sequelize.INTEGER,
       references: {
-        model: "Schedules",
+        model: "TimeSlots",
         key: "id"
       },
       onUpdate: "CASCADE",

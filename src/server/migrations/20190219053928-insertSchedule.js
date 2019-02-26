@@ -44,26 +44,10 @@ module.exports = {
           updatedAt: new Date()
         },
         {
-          id: 10,
-          staffId: 1,
-          timeSlotId: 2,
-          day: "Fri",
-          createdAt: new Date(),
-          updatedAt: new Date()
-        },
-        {
           id: 6,
           staffId: 1,
           timeSlotId: 2,
           day: "Tue",
-          createdAt: new Date(),
-          updatedAt: new Date()
-        },
-        {
-          id: 7,
-          staffId: 1,
-          timeSlotId: 2,
-          day: "Fri",
           createdAt: new Date(),
           updatedAt: new Date()
         },

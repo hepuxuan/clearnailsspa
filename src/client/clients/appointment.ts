@@ -1,8 +1,8 @@
-import { CreateAppointmentRequest } from "../models/appointment";
+import { CreateAppointmentRequest, Appointment } from "../models/appointment";
 
 async function createAppointment(
   request: CreateAppointmentRequest
-): Promise<CreateAppointmentRequest> {
+): Promise<Appointment> {
   const res = await fetch(`/api/appointment`, {
     method: "POST",
     body: JSON.stringify(request),

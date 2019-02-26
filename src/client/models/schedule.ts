@@ -18,4 +18,17 @@ interface TimeSlot {
   end: string;
 }
 
-export { Schedule, Staff, TimeSlot };
+interface TimeSlotAvailability extends Staff {
+  isAvailable: boolean;
+}
+
+interface StaffAvailability extends Staff {
+  id: number;
+  name: string;
+  availables: {
+    date: string;
+    timeSlots: TimeSlotAvailability[];
+  }[];
+}
+
+export { Schedule, Staff, TimeSlot, StaffAvailability, TimeSlotAvailability };

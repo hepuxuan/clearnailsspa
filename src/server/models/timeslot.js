@@ -11,6 +11,7 @@ module.exports = (sequelize, DataTypes) => {
   TimeSlot.associate = function(models) {
     // associations can be defined here
     TimeSlot.hasMany(models.Schedule);
+    TimeSlot.hasMany(models.Appointment);
   };
   return TimeSlot;
 };

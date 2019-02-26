@@ -1,22 +1,33 @@
-const { Service, Category } = require("../models");
+const { Category } = require("../models");
 
 async function getCategories() {
-  const categories = await Category.findAll({
-    include: [{ model: Service }]
-  });
+  const categories = await Category.findAll();
 
-  return categories.map(({ id, name, Services }) => ({
+  console.log(JSON.stringify(categories, null, 2));
+  return categories.map(({ id, name, image }) => ({
     id,
     name,
-    services: Services.map(({ id, name, duration, price }) => ({
-      id,
-      name,
-      duration,
-      price
-    }))
+    image
   }));
 }
 
+async function getCategory(categoryId) {
+  const category = await Category.findOne({
+    where: {
+      id: categoryId
+    }
+  });
+
+  const { id, name, image } = category;
+
+  return {
+    id,
+    name,
+    image
+  };
+}
+
 module.exports = {
-  getCategories
+  getCategories,
+  getCategory
 };

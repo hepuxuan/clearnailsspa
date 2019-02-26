@@ -6,9 +6,7 @@ const router = express.Router();
 router.post("/", async (req, res) => {
   try {
     const appointment = await createAppointment(req.body);
-    res.json({
-      appointment
-    });
+    res.json(appointment);
   } catch (e) {
     console.log(e);
     res.status(500).json({

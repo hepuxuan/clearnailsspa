@@ -1,11 +1,12 @@
-import { Schedule } from "../models/schedule";
+import { StaffAvailability } from "../models/schedule";
 
-async function getAvailableSchedule(
-  date: string
+async function getStaffAvailability(
+  start: string,
+  end: string
 ): Promise<{
-  availables: Schedule[];
+  staffs: StaffAvailability[];
 }> {
-  const res = await fetch(`/api/schedule/available?date=${date}`);
+  const res = await fetch(`/api/schedule/available?start=${start}&end=${end}`);
   if (res.status === 200) {
     return res.json();
   } else {
@@ -13,4 +14,4 @@ async function getAvailableSchedule(
   }
 }
 
-export { getAvailableSchedule };
+export { getStaffAvailability };

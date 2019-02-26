@@ -1,16 +1,16 @@
 const express = require("express");
 const router = express.Router();
-const { getCategories } = require("../services/category");
-const { getAvailableDaysInNext2Weeks } = require("../services/timeSlot");
+const routes = require("../../common/routes");
 
 /* GET home page. */
-router.get("/", async (req, res, next) => {
-  const categories = await getCategories();
-  const availableDates = await getAvailableDaysInNext2Weeks();
-  res.render("index", {
-    title: "Clear Nails Spa",
-    serverData: JSON.stringify({ categories, availableDates })
+
+for (let route of routes) {
+  router.get(route.path, async (req, res, next) => {
+    res.render("index", {
+      title: "Clear Nails Spa",
+      serverData: JSON.stringify({})
+    });
   });
-});
+}
 
 module.exports = router;

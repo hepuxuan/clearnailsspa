@@ -5,7 +5,7 @@
     "database": "clearnailsspa",
     "host": "localhost",
     "dialect": "sqlite",
-    "storage": "../db"
+    "storage": "/Users/puxuanhe/Documents/workspace/clearnailsspa/src/server/db.sqlite"
   },
   "test": {
     "username": "root",
@@ -21,6 +21,6 @@
     "database": "clearnailsspa",
     "host": "localhost",
     "dialect": "sqlite",
-    "storage": "../db"
+    "storage": "/home/nowuser/src/db.sqlite"
   }
 }

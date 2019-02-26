@@ -1,4 +1,4 @@
-const { Appointment, Customer } = require("../models");
+const { Appointment, Customer, Service, Staff } = require("../models");
 
 async function createAppointment(request) {
   let existingCustomer = await Customer.findOne({
@@ -19,14 +19,47 @@ async function createAppointment(request) {
       name: request.name
     });
   }
-  return Appointment.create({
+
+  const appointmentDB = await Appointment.create({
     date: request.date,
-    ServiceId: request.serviceId,
     CustomerId: existingCustomer.id,
-    ScheduleId: request.scheduleId
+    TimeSlotId: request.timeSlotId,
+    StaffId: request.staffId
   });
+
+  const services = await Service.findAll({
+    where: {
+      id: request.services
+    }
+  });
+
+  await appointmentDB.addServices(services);
+
+  return {
+    id: appointmentDB.id
+  };
+}
+
+async function getAppointment(id) {
+  const appointment = await Appointment.findOne({
+    where: {
+      id: 1
+    },
+    attributes: { exclude: ["ServiceId"] },
+    include: [
+      {
+        model: Service,
+        through: "AppointmentServices"
+      },
+      {
+        model: Staff
+      }
+    ]
+  });
+  return appointment;
 }
 
 module.exports = {
-  createAppointment
+  createAppointment,
+  getAppointment
 };

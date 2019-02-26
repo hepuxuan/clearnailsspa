@@ -1,15 +1,22 @@
 const express = require("express");
-const { getAvailableTimeSlot } = require("../../services/timeslot");
+const { getAvailableTimeSlot } = require("../../services/timeSlot");
 
 const router = express.Router();
 
 router.get("/available", async (req, res) => {
   try {
-    const availables = await getAvailableTimeSlot(req.query.date);
+    const { start, end } = req.query;
+    if (!start || !end) {
+      res.status(400).json({
+        err: "start or end is missing"
+      });
+    }
+    const staffs = await getAvailableTimeSlot(start, end);
     res.json({
-      availables
+      staffs
     });
-  } catch {
+  } catch (e) {
+    console.log(e);
     res.status(500).json({
       err: "INTERNAL_ERROR"
     });

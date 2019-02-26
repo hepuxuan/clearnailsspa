@@ -10,7 +10,7 @@ module.exports = (sequelize, DataTypes) => {
     // associations can be defined here
     Schedule.belongsTo(models.Staff);
     Schedule.belongsTo(models.TimeSlot);
-    Schedule.hasMany(models.Appointment);
+    // Schedule.hasMany(models.Appointment);
   };
   return Schedule;
 };
