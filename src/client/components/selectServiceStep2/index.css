@@ -1,7 +1,87 @@
-.category {
-  border-right: solid 1px black;
+.main {
+  padding: 0 60px;
+}
+.buttonList {
+  margin: auto;
+  padding: 0 30px;
+  padding-top: 20px;
+  display: flex;
+  justify-content: center;
+  overflow: auto;
+  padding-bottom: 15px;
+  margin-bottom: 15px;
+  border-bottom: 3px solid #2597bb;
 }
 
 .buttonList > *:not(:last-child) {
-  margin-bottom: 12px;
+  margin-right: 20px;
+}
+
+.buttonList > * {
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center center;
+  width: 250px;
+  height: 100px;
+  position: relative;
+}
+
+.imageTab {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.inactiveTab {
+  background-color: rgba(255, 255, 255, 0.5);
+}
+
+.serviceCard {
+  max-width: 280px;
+}
+
+.serviceLine1 {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.price {
+  font-size: 16px;
+  color: #2597bb;
+}
+
+.description {
+  font-size: 12px;
+  color: #838383;
+}
+
+.buttonList a {
+  color: #fff;
+  font-size: 24px;
+  text-decoration: none;
+}
+
+.subTitle {
+  color: #2597bb;
+  font-size: 20px;
+}
+
+@media screen and (max-width: 768px) {
+  .buttonList {
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .buttonList > * {
+    width: 100%;
+  }
+  .buttonList > *:not(:last-child) {
+    margin-bottom: 20px;
+  }
 }

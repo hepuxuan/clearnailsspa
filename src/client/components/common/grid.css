@@ -1,5 +1,6 @@
 .grid {
   display: flex;
+  flex-wrap: wrap;
 }
 
 .grid > * {
@@ -14,21 +15,22 @@
   width: 66%;
 }
 
-.grid > *:not(:last-child) {
-  padding-right: 12px;
+.grid > * {
+  padding-right: 24px;
 }
 
-.grid > *:not(:first-child) {
+/* .grid > *:not(:first-child) {
   padding-left: 12px;
+} */
+
+.grid.gutter6 > * {
+  margin-right: 12px;
+  margin-bottom: 12px;
 }
 
-.grid.gutter6 > *:not(:last-child) {
-  padding-right: 6px;
-}
-
-.grid.gutter6 > *:not(:first-child) {
-  padding-left: 6px;
-}
+/* .grid.gutter6 > *:not(:first-child) {
+  margin-left: 6px;
+} */
 
 @media screen and (max-width: 768px) {
   .gridDesktopOnly {

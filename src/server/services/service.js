@@ -21,8 +21,8 @@ async function getService(id) {
 }
 
 function convert(dto) {
-  const { id, name, duration, price, CategoryId } = dto;
-  return { id, name, duration, price, categoryId: CategoryId };
+  const { id, name, description, duration, price, CategoryId } = dto;
+  return { id, description, name, duration, price, categoryId: CategoryId };
 }
 
 module.exports = {
