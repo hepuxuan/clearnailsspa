@@ -1,8 +1,13 @@
 import * as React from "react";
 import styles from "./index.css";
 import buttonStyles from "../button.css";
+import { ViewContext } from "../../../context/viewContext";
 
 const Footer: React.SFC<{}> = () => {
+  const { isFooterVisible } = React.useContext(ViewContext);
+  if (!isFooterVisible) {
+    return null;
+  }
   return (
     <div className={styles.footer}>
       <div className={styles.footerInner}>

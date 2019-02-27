@@ -1,0 +1,44 @@
+.buttonBase {
+  display: inline-block;
+  display: flex;
+  align-items: center;
+}
+.buttonBase button {
+  border: none;
+  background: #fff;
+}
+.buttonBase i {
+  color: #3ac0ea;
+}
+
+.linkList {
+  min-height: calc(100vh - 74px);
+  background: #fff;
+  border-top: 1px solid #2597bb;
+  overflow: hidden;
+}
+
+.linkList a {
+  display: inline-block;
+  padding: 9px 0 10px 34px;
+  margin: 10px 0 10px 29px;
+  text-decoration: none;
+  color: #094c61;
+  font-size: 20px;
+  width: calc(100% - 29px);
+}
+.linkList a:visited {
+  color: #094c61;
+}
+
+.linkList a.active {
+  color: #fff;
+  background: #3ac0ea;
+  border-radius: 15px;
+}
+
+@media screen and (min-width: 768px) {
+  .buttonBase {
+    display: none;
+  }
+}

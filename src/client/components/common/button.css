@@ -1,12 +1,11 @@
 .btn {
-  color: #000;
+  color: #fff;
   text-decoration: none;
-  background-color: #ccc;
+  background-color: #3ac0ea;
   padding: 12px;
-  width: 100%;
   display: inline-block;
   text-align: center;
-  box-sizing: border-box;
+  border-radius: 5px;
 }
 
 .link {
@@ -15,6 +14,10 @@
   color: #595959;
   font-size: 16px;
   display: inline-block;
+}
+
+.link:visited {
+  color: #595959;
 }
 
 .btn.btnInverse {
@@ -28,4 +31,5 @@
 
 .btn.btnLarge {
   font-size: 18px;
+  padding: 9px 77px 8px 76px;
 }

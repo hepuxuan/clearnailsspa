@@ -13,7 +13,7 @@
     "database": "clearnailsspa",
     "host": "localhost",
     "dialect": "sqlite",
-    "storage": "../db"
+    "storage": "/home/nowuser/src/db.sqlite"
   },
   "production": {
     "username": "root",

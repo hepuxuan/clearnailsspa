@@ -1,6 +1,7 @@
 import * as React from "react";
 import styles from "./index.css";
 import buttonStyles from "../button.css";
+import { MenuIcon } from "../menu";
 
 const TopNav: React.SFC<{}> = () => {
   return (
@@ -30,6 +31,7 @@ const TopNav: React.SFC<{}> = () => {
             Contact Us
           </a>
         </div>
+        <MenuIcon />
       </div>
     </div>
   );

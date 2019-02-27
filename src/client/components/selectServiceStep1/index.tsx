@@ -22,16 +22,15 @@ const SelectServiceStep1: React.SFC<{}> = () => {
       <div className={styles.buttonList}>
         {categories &&
           categories.map(category => (
-            <div
+            <Link
+              key={category.id}
               style={{
                 backgroundImage: `url("${category.image}")`
               }}
-              key={category.id}
+              to={`/selectServiceStep2/category/${category.id}`}
             >
-              <Link to={`/selectServiceStep2/category/${category.id}`}>
-                {category.name}
-              </Link>
-            </div>
+              {category.name}
+            </Link>
           ))}
       </div>
       <div className={`${pageStyles.subTitle} ${styles.subTitle}`}>
