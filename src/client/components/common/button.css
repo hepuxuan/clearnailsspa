@@ -1,11 +1,21 @@
 .btn {
-  color: #fff;
   text-decoration: none;
-  background-color: #3ac0ea;
   padding: 12px;
   display: inline-block;
   text-align: center;
   border-radius: 5px;
+  border: none;
+  color: #464646;
+}
+
+.btn.utility {
+  background: #ffffff;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.btn.action {
+  color: #fff;
+  background-color: #3ac0ea;
 }
 
 .link {
@@ -26,7 +36,7 @@
 }
 
 .btn.btnSmall {
-  padding: 3px;
+  font-size: 14px;
 }
 
 .btn.btnLarge {

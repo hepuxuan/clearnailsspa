@@ -8,31 +8,81 @@ import { TopNav } from "../common/topNav";
 import { Footer } from "../common/footer";
 import { ViewContext } from "../../context/viewContext";
 import { MenuList } from "../common/menu";
+import { getCategories } from "../../clients/category";
+import { Category, Service } from "../../models/category";
+import { getServices, getService } from "../../clients/service";
+import "normalize.css";
+import { StaffAvailability } from "../../models/schedule";
+import { getStaffAvailability } from "../../clients/schedule";
+
+function useCategories(): [Category[], () => void] {
+  const [data, setData] = React.useState([]);
+  const fetchData = () => {
+    getCategories().then(({ categories }) => {
+      setData(categories);
+    });
+  };
+
+  return [data, fetchData];
+}
+
+function useServicesByCategory(): [Service[], (id: string) => void] {
+  const [data, setData] = React.useState([]);
+  const fetchData = (id: string) => {
+    getServices(id).then(({ services }) => {
+      setData(services);
+    });
+  };
+
+  return [data, fetchData];
+}
+
+function useServices(): [Service[], (ids: string[]) => void] {
+  const [data, setData] = React.useState([]);
+  const fetchData = (ids: string[]) => {
+    Promise.all(ids.map(id => getService(id))).then(services => {
+      setData(services);
+    });
+  };
+
+  return [data, fetchData];
+}
+
+function useStaffAvailability(): [
+  StaffAvailability[],
+  (start: string, end: string) => void
+] {
+  const [data, setData] = React.useState([]);
+  const fetchData = (start: string, end: string) => {
+    getStaffAvailability(start, end).then(({ staffs }) => {
+      setData(staffs);
+    });
+  };
+
+  return [data, fetchData];
+}
 
 const App: React.SFC<{}> = () => {
-  const [categories, setCategories] = React.useState([]);
-  const [category, setCategory] = React.useState(null);
-  const [services, setServices] = React.useState([]);
-  const [service, setService] = React.useState(null);
+  const [categories, fetchCategories] = useCategories();
+  const [servicesByCategory, fetchServicesByCategory] = useServicesByCategory();
+  const [services, fetchServices] = useServices();
   const [staff, setStaff] = React.useState(null);
-  const [staffAvailability, setStaffAvailability] = React.useState([]);
+  const [staffAvailability, fetchStaffAvailability] = useStaffAvailability();
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
   const [isFooterVisible, setIsFooterVisible] = React.useState(true);
 
   return (
     <ServiceContext.Provider
       value={{
-        categories: categories,
-        category: category,
-        services: services,
-        service: service,
+        categories,
+        servicesByCategory,
+        services,
         staff: staff,
         staffAvailability: staffAvailability,
-        setCategories: setCategories,
-        setCategory: setCategory,
-        setServices: setServices,
-        setService: setService,
-        setStaffAvailability: setStaffAvailability,
+        fetchCategories,
+        fetchServicesByCategory,
+        fetchServices,
+        fetchStaffAvailability,
         setStaff: setStaff
       }}
     >

@@ -12,7 +12,7 @@ module.exports = [
       : null
   },
   {
-    path: "/selectStaffAndTime/service/:service",
+    path: "/selectStaffAndTime",
     component: process.env.IS_BROWSER
       ? require("../client/components/selectStaffAndTime").SelectStaffAndTime
       : null

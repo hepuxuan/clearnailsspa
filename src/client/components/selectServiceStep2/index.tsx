@@ -6,12 +6,11 @@ import gridStyles from "../common/grid.css";
 import pageStyles from "../common/page.css";
 import cardStyles from "../common/card.css";
 import buttonStyles from "../common/button.css";
-
-import { getServices } from "../../clients/service";
-import { getCategories } from "../../clients/category";
 import { Stepper } from "../common/stepper";
 import { history } from "../../history";
 import { ViewContext } from "../../context/viewContext";
+import { stringify } from "qs";
+import find from "lodash/find";
 
 function handleSelectCategory(e: React.SyntheticEvent<HTMLSelectElement>) {
   history.push(`/selectServiceStep2/category/${e.currentTarget.value}`);
@@ -20,24 +19,26 @@ function handleSelectCategory(e: React.SyntheticEvent<HTMLSelectElement>) {
 const SelectServiceStep2Component: React.SFC<
   RouteComponentProps<{ category: string }>
 > = ({ match }) => {
-  const { services, setServices, categories, setCategories } = React.useContext(
-    ServiceContext
-  );
+  const {
+    servicesByCategory,
+    fetchServicesByCategory,
+    categories,
+    fetchCategories
+  } = React.useContext(ServiceContext);
   const { setIsFooterVisible } = React.useContext(ViewContext);
   React.useEffect(() => {
-    getServices(match.params.category).then(({ services }) => {
-      setServices(services);
-    });
+    fetchServicesByCategory(match.params.category);
   }, [match.params.category]);
 
   React.useEffect(() => {
-    getCategories().then(({ categories }) => {
-      setCategories(categories);
-    });
+    fetchCategories();
   }, []);
 
   React.useEffect(() => {
     setIsFooterVisible(false);
+    return () => {
+      setIsFooterVisible(true);
+    };
   }, []);
 
   const [selected, setSelected] = React.useState([]);
@@ -90,9 +91,9 @@ const SelectServiceStep2Component: React.SFC<
         </div>
         <div className={styles.subTitle}>MAIN SERVICE</div>
         <div className={`${gridStyles.grid} ${gridStyles.gutter6}`}>
-          {services &&
-            services.map(service => {
-              const ifSelected = selected.indexOf(service.id) !== -1;
+          {servicesByCategory &&
+            servicesByCategory.map(service => {
+              const ifSelected = find(selected, ({ id }) => id === service.id);
               return (
                 <a
                   className={`${cardStyles.card} ${styles.serviceCard} ${
@@ -102,10 +103,17 @@ const SelectServiceStep2Component: React.SFC<
                   href="/"
                   onClick={e => {
                     e.preventDefault();
-                    if (selected.indexOf(service.id) !== -1) {
-                      setSelected(selected.filter(id => id !== service.id));
+                    if (ifSelected) {
+                      setSelected(
+                        selected.filter(({ id }) => id !== service.id)
+                      );
                     } else {
-                      setSelected([...selected, service.id]);
+                      setSelected([
+                        ...selected.filter(
+                          ({ categoryId }) => service.categoryId !== categoryId
+                        ),
+                        service
+                      ]);
                     }
                   }}
                 >
@@ -132,7 +140,18 @@ const SelectServiceStep2Component: React.SFC<
         <div className={styles.actionDescription}>
           Now you can schedule Manicure and Pedicure services together!
         </div>
-        <button className={`${buttonStyles.btn} ${buttonStyles.btnLarge}`}>
+        <button
+          onClick={() => {
+            history.push(
+              `/selectStaffAndTime?${stringify({
+                selected: selected.map(({ id }) => id)
+              })}`
+            );
+          }}
+          className={`${buttonStyles.btn} ${buttonStyles.action} ${
+            buttonStyles.btnLarge
+          }`}
+        >
           NEXT
         </button>
       </div>

@@ -9,6 +9,7 @@ interface Staff {
   id: number;
   name: string;
   photo: string;
+  title: string;
 }
 
 interface TimeSlot {

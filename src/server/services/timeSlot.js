@@ -65,7 +65,12 @@ async function getAvailableTimeSlot(start, end) {
         staffs: schedules
           // remove slots if the staff has an appointment
           .filter(s => !appointments.find(a => s.Staff.id === a.StaffId))
-          .map(({ Staff: { id, name, photo } }) => ({ id, name, photo }))
+          .map(({ Staff: { id, name, photo } }) => ({
+            id,
+            name,
+            photo,
+            title: "Technician"
+          }))
       }));
 
     for (const timeSlot of timeSlots) {

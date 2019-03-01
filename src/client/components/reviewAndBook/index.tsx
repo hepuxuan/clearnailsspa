@@ -14,6 +14,7 @@ import inputStyles from "../common/input.css";
 import { createAppointment } from "../../clients/appointment";
 import { getStaff } from "../../clients/staff";
 import { getService } from "../../clients/service";
+import { Stepper } from "../common/stepper";
 
 const ReviewAndBookWithRouter: React.SFC<
   RouteComponentProps<{
@@ -93,6 +94,7 @@ class ReviewAndBookComponent extends React.Component<{
     const { date, serviceId, service, staff } = this.props;
     return (
       <div className={pageStyles.main}>
+        <Stepper step={2} />
         <h1 className={pageStyles.title}>
           Please review your appoinment details:
         </h1>

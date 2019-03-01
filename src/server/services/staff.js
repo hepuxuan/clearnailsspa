@@ -6,7 +6,7 @@ async function getStaff(staffId) {
       id: staffId
     }
   });
-  return { id, photo, name };
+  return { id, photo, name, title: "Technician" };
 }
 
 module.exports = {
