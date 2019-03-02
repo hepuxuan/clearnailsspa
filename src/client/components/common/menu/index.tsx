@@ -1,6 +1,6 @@
 import * as React from "react";
 import styles from "./index.css";
-import { ViewContext } from "../../../context/viewContext";
+import { ViewContext } from "../../../context/ViewContext";
 
 const MenuIcon: React.SFC<{}> = () => {
   const { isMenuOpen, setIsMenuOpen } = React.useContext(ViewContext);
@@ -28,6 +28,26 @@ const MenuIcon: React.SFC<{}> = () => {
 };
 
 const MenuList: React.SFC<{}> = () => {
+  const {
+    setIsFooterVisible,
+    setFooterHeight,
+    footerHeight
+  } = React.useContext(ViewContext);
+  let originalFooterHeight;
+
+  React.useEffect(() => {
+    if (!originalFooterHeight) {
+      originalFooterHeight = footerHeight;
+    }
+    setIsFooterVisible(false);
+    setFooterHeight(0);
+
+    return () => {
+      setIsFooterVisible(true);
+      setFooterHeight(originalFooterHeight);
+    };
+  }, []);
+
   return (
     <div className={styles.linkList}>
       <div>

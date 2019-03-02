@@ -1,0 +1,39 @@
+.input {
+  position: relative;
+  padding-bottom: 20px;
+}
+
+.input input {
+  height: 40px;
+  padding-left: 8px;
+  width: 100%;
+  border: 1px solid #a9a9a9;
+  border-radius: 5px;
+  box-sizing: border-box;
+}
+
+.input input.active {
+  border: 1px solid #2597bb;
+}
+
+.input label {
+  position: absolute;
+  left: 11px;
+}
+
+.input label.inactive {
+  top: 50%;
+  transform: translateY(-100%);
+  transition: all 0.2s ease-in-out;
+  color: #a9a9a9;
+  font-size: 18px;
+  z-index: 1;
+}
+
+.input label.active {
+  top: -11px;
+  font-size: 16px;
+  color: #2597bb;
+  transition: all 0.2s ease-in-out;
+  background: rgba(255, 255, 255, 1);
+}

@@ -1,43 +1,53 @@
 import * as React from "react";
 import styles from "./index.css";
 import buttonStyles from "../button.css";
-import { ViewContext } from "../../../context/viewContext";
+import { ViewContext } from "../../../context/ViewContext";
+import Measure from "react-measure";
 
 const Footer: React.SFC<{}> = () => {
-  const { isFooterVisible } = React.useContext(ViewContext);
+  const { isFooterVisible, setFooterHeight } = React.useContext(ViewContext);
   if (!isFooterVisible) {
     return null;
   }
+
   return (
-    <div className={styles.footer}>
-      <div className={styles.footerInner}>
-        <div className={styles.linkList}>
-          <a className={buttonStyles.link} href="/">
-            Home
-          </a>
-          <a className={buttonStyles.link} href="/about">
-            About Us
-          </a>
-          <a className={buttonStyles.link} href="/services">
-            Services
-          </a>
-          <a className={buttonStyles.link} href="/booking">
-            Booking
-          </a>
-          <a className={buttonStyles.link} href="/contact">
-            Contact Us
-          </a>
+    <Measure
+      onResize={({ entry }) => {
+        setFooterHeight(entry.height);
+      }}
+    >
+      {({ measureRef }) => (
+        <div ref={measureRef} className={styles.footer}>
+          <div className={styles.footerInner}>
+            <div className={styles.linkList}>
+              <a className={buttonStyles.link} href="/">
+                Home
+              </a>
+              <a className={buttonStyles.link} href="/about">
+                About Us
+              </a>
+              <a className={buttonStyles.link} href="/services">
+                Services
+              </a>
+              <a className={buttonStyles.link} href="/booking">
+                Booking
+              </a>
+              <a className={buttonStyles.link} href="/contact">
+                Contact Us
+              </a>
+            </div>
+            <div className={styles.contact}>
+              <div>Clear Nails Spa</div>
+              <div>2122 N Halsted St., Chicago, IL 60614</div>
+              <div>773.883.8815</div>
+            </div>
+            <div className={styles.copyRight}>
+              Copyright © 2013 ClearNailsSpa.com All rights reserved.
+            </div>
+          </div>
         </div>
-        <div className={styles.contact}>
-          <div>Clear Nails Spa</div>
-          <div>2122 N Halsted St., Chicago, IL 60614</div>
-          <div>773.883.8815</div>
-        </div>
-        <div className={styles.copyRight}>
-          Copyright © 2013 ClearNailsSpa.com All rights reserved.
-        </div>
-      </div>
-    </div>
+      )}
+    </Measure>
   );
 };
 

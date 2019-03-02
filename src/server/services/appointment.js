@@ -1,4 +1,12 @@
-const { Appointment, Customer, Service, Staff } = require("../models");
+const {
+  Appointment,
+  Customer,
+  Service,
+  Staff,
+  TimeSlot
+} = require("../models");
+const { convert: convertStaff } = require("./staff");
+const { convert: convertService } = require("./service");
 
 async function createAppointment(request) {
   let existingCustomer = await Customer.findOne({
@@ -41,9 +49,9 @@ async function createAppointment(request) {
 }
 
 async function getAppointment(id) {
-  const appointment = await Appointment.findOne({
+  const res = await Appointment.findOne({
     where: {
-      id: 1
+      id
     },
     attributes: { exclude: ["ServiceId"] },
     include: [
@@ -53,10 +61,23 @@ async function getAppointment(id) {
       },
       {
         model: Staff
+      },
+      {
+        model: TimeSlot
+      },
+      {
+        model: Customer
       }
     ]
   });
-  return appointment;
+  return {
+    id: res.id,
+    date: res.date,
+    staff: convertStaff(res.Staff),
+    services: res.Services.map(s => convertService(s)),
+    timeSlot: res.TimeSlot,
+    customer: res.Customer
+  };
 }
 
 module.exports = {

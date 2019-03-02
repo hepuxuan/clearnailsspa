@@ -1,5 +1,5 @@
 import * as React from "react";
-import { ServiceContext } from "../../context/serviceContext";
+import { ServiceContext } from "../../context/ServiceContext";
 import { Link } from "react-router-dom";
 import pageStyles from "../common/page.css";
 import styles from "./index.css";

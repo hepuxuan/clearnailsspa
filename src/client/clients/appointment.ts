@@ -17,4 +17,13 @@ async function createAppointment(
   }
 }
 
-export { createAppointment };
+async function getAppointment(id: string): Promise<Appointment> {
+  const res = await fetch(`/api/appointment/${id}`);
+  if (res.status === 200) {
+    return res.json();
+  } else {
+    throw new Error();
+  }
+}
+
+export { createAppointment, getAppointment };

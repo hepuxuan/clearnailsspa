@@ -1,13 +1,17 @@
-.subTitle {
-  text-align: center;
-  color: #333;
-  padding-bottom: 24px;
-  border-bottom: solid 1px #000;
-}
-.customerForm {
-  margin-top: 12px;
-  width: 600px;
+.main {
+  max-width: 700px;
   margin: auto;
+}
+
+.customerForm {
+  max-width: 600px;
+  margin: auto;
+  margin-top: 12px;
+  padding-bottom: 30px;
+}
+
+.services {
+  border-bottom: 2px solid #2597bb;
 }
 
 .customerForm label {
@@ -17,4 +21,31 @@
 .inputWrapper {
   align-items: center;
   margin: 12px;
+}
+
+.backButton {
+  background: #c2c0c0 !important;
+}
+
+.actionArea {
+  max-width: 460px;
+  margin: auto;
+  padding-top: 50px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.inputs {
+  max-width: 380px;
+  margin: auto;
+  margin-top: 30px;
+}
+
+@media screen and (max-width: 768px) {
+  .backButton {
+    display: none;
+  }
+  .confirmButton {
+    margin: auto;
+  }
 }

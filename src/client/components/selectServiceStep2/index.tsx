@@ -1,5 +1,5 @@
 import * as React from "react";
-import { ServiceContext } from "../../context/serviceContext";
+import { ServiceContext } from "../../context/ServiceContext";
 import { Link, RouteComponentProps, withRouter } from "react-router-dom";
 import styles from "./index.css";
 import gridStyles from "../common/grid.css";
@@ -8,9 +8,10 @@ import cardStyles from "../common/card.css";
 import buttonStyles from "../common/button.css";
 import { Stepper } from "../common/stepper";
 import { history } from "../../history";
-import { ViewContext } from "../../context/viewContext";
+import { ViewContext } from "../../context/ViewContext";
 import { stringify } from "qs";
 import find from "lodash/find";
+import Measure from "react-measure";
 
 function handleSelectCategory(e: React.SyntheticEvent<HTMLSelectElement>) {
   history.push(`/selectServiceStep2/category/${e.currentTarget.value}`);
@@ -25,7 +26,7 @@ const SelectServiceStep2Component: React.SFC<
     categories,
     fetchCategories
   } = React.useContext(ServiceContext);
-  const { setIsFooterVisible } = React.useContext(ViewContext);
+  const { setIsFooterVisible, setFooterHeight } = React.useContext(ViewContext);
   React.useEffect(() => {
     fetchServicesByCategory(match.params.category);
   }, [match.params.category]);
@@ -136,25 +137,33 @@ const SelectServiceStep2Component: React.SFC<
             })}
         </div>
       </div>
-      <div className={styles.actionArea}>
-        <div className={styles.actionDescription}>
-          Now you can schedule Manicure and Pedicure services together!
-        </div>
-        <button
-          onClick={() => {
-            history.push(
-              `/selectStaffAndTime?${stringify({
-                selected: selected.map(({ id }) => id)
-              })}`
-            );
-          }}
-          className={`${buttonStyles.btn} ${buttonStyles.action} ${
-            buttonStyles.btnLarge
-          }`}
-        >
-          NEXT
-        </button>
-      </div>
+      <Measure
+        onResize={({ entry }) => {
+          setFooterHeight(entry.height + 26);
+        }}
+      >
+        {({ measureRef }) => (
+          <div ref={measureRef} className={styles.actionArea}>
+            <div className={styles.actionDescription}>
+              Now you can schedule Manicure and Pedicure services together!
+            </div>
+            <button
+              onClick={() => {
+                history.push(
+                  `/selectStaffAndTime?${stringify({
+                    selected: selected.map(({ id }) => id)
+                  })}`
+                );
+              }}
+              className={`${buttonStyles.btn} ${buttonStyles.action} ${
+                buttonStyles.btnLarge
+              }`}
+            >
+              NEXT
+            </button>
+          </div>
+        )}
+      </Measure>
     </>
   );
 };

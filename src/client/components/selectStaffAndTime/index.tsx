@@ -1,5 +1,5 @@
 import * as React from "react";
-import { ServiceContext } from "../../context/serviceContext";
+import { ServiceContext } from "../../context/ServiceContext";
 import pageStyles from "../common/page.css";
 import { RouteComponentProps, withRouter } from "react-router";
 import styles from "./index.css";
@@ -9,15 +9,20 @@ import Moment = require("moment");
 import MomentRange = require("moment-range");
 const moment = MomentRange.extendMoment(Moment);
 import gridStyles from "../common/grid.css";
-import { parse } from "qs";
+import { parse, stringify } from "qs";
 import { Stepper } from "../common/stepper";
-import { ViewContext } from "../../context/viewContext";
+import { ViewContext } from "../../context/ViewContext";
+import Measure from "react-measure";
+import { Link } from "react-router-dom";
 
-const SelectStaffAndTimeComponent: React.SFC<
-  RouteComponentProps<{ service: string }>
-> = ({ match, location }) => {
+const SelectStaffAndTimeComponent: React.SFC<RouteComponentProps<{}>> = ({
+  location
+}) => {
   const [start, setStart] = React.useState(moment().add(1, "days"));
   const [end, setEnd] = React.useState(moment().add(7, "days"));
+  const { selected } = parse(location.search, {
+    ignoreQueryPrefix: true
+  });
 
   const {
     services,
@@ -26,7 +31,7 @@ const SelectStaffAndTimeComponent: React.SFC<
     staffAvailability
   } = React.useContext(ServiceContext);
 
-  const { setIsFooterVisible } = React.useContext(ViewContext);
+  const { setIsFooterVisible, setFooterHeight } = React.useContext(ViewContext);
 
   React.useEffect(() => {
     setIsFooterVisible(false);
@@ -35,11 +40,8 @@ const SelectStaffAndTimeComponent: React.SFC<
     };
   }, []);
   React.useEffect(() => {
-    const { selected } = parse(location.search, {
-      ignoreQueryPrefix: true
-    });
     fetchServices(selected);
-  }, [match.params.service]);
+  }, [location.search]);
 
   React.useEffect(() => {
     fetchStaffAvailability(
@@ -161,52 +163,64 @@ const SelectStaffAndTimeComponent: React.SFC<
             ))}
           </div>
         ))}
-      <div className={styles.actionArea}>
-        <div className={styles.playback}>
-          <div>
-            <span className={styles.label}>You've selectedDate: </span>
-            <span>
-              {services && services.map(service => service.name).join("+")}
-            </span>
+      <Measure
+        onResize={({ entry }) => {
+          setFooterHeight(entry.height + 26);
+        }}
+      >
+        {({ measureRef }) => (
+          <div ref={measureRef} className={styles.actionArea}>
+            <div className={styles.playback}>
+              <div>
+                <span className={styles.label}>You've selected: </span>
+                <span>
+                  {services && services.map(service => service.name).join("+")}
+                </span>
+              </div>
+              {selectedStaff && (
+                <div>
+                  <span className={styles.label}>Technician: </span>
+                  <span>{selectedStaff.name}</span>
+                </div>
+              )}
+              {selectedTimeSlot && (
+                <div>
+                  <span className={styles.label}>Time: </span>
+                  <span>{selectedTimeSlot.name}</span>
+                </div>
+              )}
+            </div>
+            <div className={styles.actionAreaInner}>
+              <Link
+                to="selectServiceStep1"
+                onClick={() => {}}
+                className={`${buttonStyle.btn} ${buttonStyle.action} ${
+                  buttonStyle.btnLarge
+                } ${styles.backButton}`}
+              >
+                Back
+              </Link>
+              <button
+                onClick={() => {
+                  history.push(
+                    `/reviewAndBook/staff/${selectedStaff.id}/time/${
+                      selectedTimeSlot.id
+                    }?${stringify({
+                      date: selectedDate,
+                      selected: selected
+                    })}`
+                  );
+                }}
+                className={`${buttonStyle.btn} ${buttonStyle.action} ${
+                  buttonStyle.btnLarge
+                }`}
+              >
+                NEXT
+              </button>
+            </div>
           </div>
-          {selectedStaff && (
-            <div>
-              <span className={styles.label}>Technician: </span>
-              <span>{selectedStaff.name}</span>
-            </div>
-          )}
-          {selectedTimeSlot && (
-            <div>
-              <span className={styles.label}>Time: </span>
-              <span>{selectedTimeSlot.name}</span>
-            </div>
-          )}
-        </div>
-        <div className={styles.actionAreaInner}>
-          <button
-            onClick={() => {}}
-            className={`${buttonStyle.btn} ${buttonStyle.action} ${
-              buttonStyle.btnLarge
-            } ${styles.backButton}`}
-          >
-            Back
-          </button>
-          <button
-            onClick={() => {
-              history.push(
-                `/reviewAndBook/service/${match.params.service}/staff/${
-                  selectedStaff.id
-                }/time/${selectedTimeSlot.id}?date=${selectedDate}`
-              );
-            }}
-            className={`${buttonStyle.btn} ${buttonStyle.action} ${
-              buttonStyle.btnLarge
-            }`}
-          >
-            NEXT
-          </button>
-        </div>
-      </div>
+        )}
+      </Measure>
     </div>
   );
 };

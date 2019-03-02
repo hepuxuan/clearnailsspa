@@ -4,6 +4,7 @@
   background: #2597bb;
   width: 100%;
   color: #fff;
+  z-index: 1;
 }
 
 .footerInner {
@@ -34,10 +35,4 @@
 .copyRight {
   font-size: 12px;
   margin-left: 15px;
-}
-
-@media screen and (max-width: 768px) {
-  .footer {
-    position: unset;
-  }
 }

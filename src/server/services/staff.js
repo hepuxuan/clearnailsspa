@@ -9,6 +9,12 @@ async function getStaff(staffId) {
   return { id, photo, name, title: "Technician" };
 }
 
+function convert(staff) {
+  const { id, photo, name } = staff;
+  return { id, photo, name, title: "Technician" };
+}
+
 module.exports = {
-  getStaff
+  getStaff,
+  convert
 };

@@ -1,87 +1,79 @@
 import * as React from "react";
 import { RouteComponentProps, withRouter, Link } from "react-router-dom";
-import { ServiceContext } from "../../context/serviceContext";
+import { ServiceContext } from "../../context/ServiceContext";
 import { Service } from "../../models/category";
 import pageStyles from "../common/page.css";
-import { parse } from "qs";
+import { parse, stringify } from "qs";
 import { history } from "../../history";
 import { Staff } from "../../models/schedule";
 import buttonStyle from "../common/button.css";
 import styles from "./index.css";
 import { Formik } from "formik";
-import gridStyles from "../common/grid.css";
-import inputStyles from "../common/input.css";
 import { createAppointment } from "../../clients/appointment";
-import { getStaff } from "../../clients/staff";
-import { getService } from "../../clients/service";
 import { Stepper } from "../common/stepper";
+import { TextInput } from "../common/input";
+import { ServiceDetails } from "../common/serviceDetails";
 
 const ReviewAndBookWithRouter: React.SFC<
   RouteComponentProps<{
-    service: string;
     staff: string;
     time: string;
   }>
 > = ({ match, location }) => {
-  const { staff, setStaff, service, setService } = React.useContext(
+  const { staff, fetchStaff, services, fetchServices } = React.useContext(
     ServiceContext
   );
 
-  React.useEffect(() => {
-    const { date } = parse(location.search, {
-      ignoreQueryPrefix: true
-    });
-    const { service } = match.params;
-    if (!date) {
-      history.replace(`/selectStaffAndTime/service/${service}`);
-      return;
-    }
-  }, [location.search]);
-
-  React.useEffect(() => {
-    getStaff(match.params.staff).then(staff => setStaff(staff));
-  }, [match.params.staff]);
-
-  React.useEffect(() => {
-    getService(match.params.service).then(service => setService(service));
-  }, [match.params.service]);
-
-  const { date } = parse(location.search, {
+  const { date, selected } = parse(location.search, {
     ignoreQueryPrefix: true
   });
 
-  const { service: serviceId, staff: staffId, time } = match.params;
+  React.useEffect(() => {
+    if (!date || !selected) {
+      history.replace(`/selectStaffAndTime?${stringify({ selected })}`);
+    }
+  }, [date, selected]);
+
+  React.useEffect(() => {
+    fetchStaff(match.params.staff);
+  }, [match.params.staff]);
+
+  React.useEffect(() => {
+    fetchServices(selected);
+  }, [location.search]);
+
+  const { staff: staffId, time } = match.params;
 
   return (
     <ReviewAndBookComponent
       date={date}
-      serviceId={serviceId}
+      selectedSeviceIds={selected}
       staffId={staffId}
       time={time}
       staff={staff}
-      service={service}
+      services={services}
     />
   );
 };
 
 class ReviewAndBookComponent extends React.Component<{
   staffId: string;
-  serviceId: string;
+  selectedSeviceIds: string[];
   date: string;
-  service?: Service;
+  services?: Service[];
   staff?: Staff;
   time: string;
 }> {
   public handleBook = async (values: any, { setSubmitting }) => {
     const { name, email, phone } = values;
-    const { serviceId, staffId, time, date } = this.props;
+    const { selectedSeviceIds, staffId, time, date } = this.props;
     setSubmitting(true);
 
     const appoinment = await createAppointment({
       name,
       email,
       phone,
-      services: [+serviceId],
+      services: selectedSeviceIds,
       staffId: +staffId,
       timeSlotId: +time,
       date
@@ -91,104 +83,78 @@ class ReviewAndBookComponent extends React.Component<{
   };
 
   public render() {
-    const { date, serviceId, service, staff } = this.props;
+    const { date, services, staff } = this.props;
     return (
-      <div className={pageStyles.main}>
+      <div className={styles.main}>
         <Stepper step={2} />
         <h1 className={pageStyles.title}>
-          Please review your appoinment details:
+          Please confirm your booking details:
         </h1>
-        <div className={styles.subTitle}>
-          {service && (
-            <p>
-              Service you choose: {service.name}
-              <Link
-                to={`/selectServiceStep2/category/${service.categoryId}`}
-                className={buttonStyle.link}
-              >
-                change
-              </Link>
-            </p>
+        <div className={styles.services}>
+          {services && (
+            <ServiceDetails services={services} staff={staff} date={date} />
           )}
-          <p>
-            Your technician: {staff && staff.name}
-            <Link
-              to={`/selectStaffAndTime/service/${serviceId}`}
-              className={buttonStyle.link}
-            >
-              change
-            </Link>
-          </p>
-          <p>
-            Appointment time: {date}
-            <Link
-              to={`/selectStaffAndTime/service/${serviceId}`}
-              className={buttonStyle.link}
-            >
-              change
-            </Link>
-          </p>
         </div>
         <h2 className={pageStyles.title}>
           Please enter your contact information
         </h2>
         <Formik
           onSubmit={this.handleBook}
+          onReset={() => {
+            history.push(
+              `/selectStaffAndTime?${stringify({
+                selected: this.props.selectedSeviceIds
+              })}`
+            );
+          }}
           initialValues={{ name: "", email: "", phone: "" }}
         >
-          {({ handleChange, handleSubmit }) => (
-            <form className={styles.customerForm} onSubmit={handleSubmit}>
-              <div
-                className={`${gridStyles.grid} ${inputStyles.input} ${
-                  styles.inputWrapper
-                }`}
-              >
-                <label className={`${gridStyles.grid4}`} htmlFor="name-input">
-                  Your preferred name:{" "}
-                </label>
-                <input
-                  className={`${gridStyles.grid8}`}
+          {({ handleChange, handleReset, handleSubmit, values }) => (
+            <form
+              onReset={handleReset}
+              className={styles.customerForm}
+              onSubmit={handleSubmit}
+            >
+              <div className={styles.inputs}>
+                <TextInput
+                  label="Your preferred name: "
                   onChange={handleChange}
                   id="name-input"
                   name="name"
+                  value={values.name}
                 />
-              </div>
-              <div
-                className={`${gridStyles.grid} ${inputStyles.input} ${
-                  styles.inputWrapper
-                }`}
-              >
-                <label className={`${gridStyles.grid4}`} htmlFor="email-input">
-                  Your email address:{" "}
-                </label>
-                <input
-                  className={`${gridStyles.grid8}`}
+                <TextInput
                   onChange={handleChange}
+                  label="Your email address: "
                   id="email-input"
                   name="email"
+                  value={values.email}
                 />
-              </div>
-              <div
-                className={`${gridStyles.grid} ${inputStyles.input} ${
-                  styles.inputWrapper
-                }`}
-              >
-                <label className={`${gridStyles.grid4}`} htmlFor="phone-input">
-                  Your phone number:{" "}
-                </label>
-                <input
-                  className={`${gridStyles.grid8}`}
+                <TextInput
+                  label="Your phone number: "
                   onChange={handleChange}
                   id="phone-input"
                   name="phone"
+                  value={values.phone}
                 />
               </div>
-              <div>
+
+              <div className={styles.actionArea}>
                 <button
-                  className={`${buttonStyle.btn} ${buttonStyle.btnLarge}`}
+                  className={`${buttonStyle.btn} ${buttonStyle.btnLarge} ${
+                    styles.backButton
+                  } ${buttonStyle.action}`}
+                  type="reset"
+                >
+                  Back
+                </button>
+                <button
+                  className={`${buttonStyle.btn} ${buttonStyle.btnLarge} ${
+                    buttonStyle.action
+                  } ${styles.confirmButton}`}
                   type="submit"
                 >
-                  Book your appointment
+                  Confirm
                 </button>
               </div>
             </form>

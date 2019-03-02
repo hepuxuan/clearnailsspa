@@ -18,7 +18,7 @@ module.exports = [
       : null
   },
   {
-    path: "/reviewAndBook/service/:service/staff/:staff/time/:time",
+    path: "/reviewAndBook/staff/:staff/time/:time",
     component: process.env.IS_BROWSER
       ? require("../client/components/reviewAndBook").ReviewAndBook
       : null

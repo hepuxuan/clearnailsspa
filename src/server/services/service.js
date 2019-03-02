@@ -27,5 +27,6 @@ function convert(dto) {
 
 module.exports = {
   getService,
-  getServices
+  getServices,
+  convert
 };

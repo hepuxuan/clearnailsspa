@@ -1,0 +1,46 @@
+.services {
+  padding: 20px 0;
+}
+
+.services > *:not(:first-child) {
+  padding-left: 118px;
+  font-size: 18px;
+}
+.services > * {
+  flex-grow: 0;
+}
+
+.editLink {
+  color: #3ac0ea;
+  font-size: 14px;
+  padding-left: 10px;
+  text-decoration: none;
+}
+
+.editLink i {
+  vertical-align: middle;
+  font-size: 18px;
+  padding-left: 7px;
+}
+
+.editLink:visited {
+  color: #3ac0ea;
+}
+
+.serviceName {
+  color: #094c61;
+}
+
+.service > div {
+  margin-bottom: 10px;
+}
+
+@media screen and (max-width: 768px) {
+  .services > * {
+    padding-left: 58px !important;
+  }
+
+  .services > *:not(:first-child) {
+    padding-top: 20px !important;
+  }
+}
