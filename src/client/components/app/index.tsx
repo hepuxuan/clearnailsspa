@@ -9,20 +9,26 @@ import { Footer } from "../common/footer";
 import { ViewContextProvider, ViewContext } from "../../context/ViewContext";
 import { MenuList } from "../common/menu";
 import "normalize.css";
+import { isMobile } from "../../utils";
 
 const Page: React.SFC<{ children: any }> = ({ children }) => {
   const { isMenuOpen, footerHeight, topNavHeight } = React.useContext(
     ViewContext
   );
+
   return isMenuOpen ? (
     <MenuList />
   ) : (
     <div
       className={styles.mainApp}
-      style={{
-        minHeight: `calc(100vh - ${footerHeight + topNavHeight}px)`,
-        marginBottom: `${footerHeight}px`
-      }}
+      style={
+        !isMobile()
+          ? {
+              minHeight: `calc(100vh - ${footerHeight + topNavHeight}px)`,
+              marginBottom: `${footerHeight}px`
+            }
+          : {}
+      }
     >
       {children}
     </div>

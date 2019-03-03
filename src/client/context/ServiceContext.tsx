@@ -14,11 +14,13 @@ const initValue: {
   category?: Category;
   servicesByCategory?: Service[];
   services?: Service[];
+  addOnServices?: Service[];
   staff?: Staff;
   staffAvailability?: StaffAvailability[];
   appointment?: Appointment;
   fetchCategories: () => void;
   fetchServices: (ids: string[]) => void;
+  fetchAddOnServices: () => void;
   fetchServicesByCategory: (id: string) => void;
   fetchStaffAvailability: (start: string, end: string) => void;
   fetchStaff: (id: string) => void;
@@ -31,8 +33,10 @@ const initValue: {
   staff: null,
   staffAvailability: null,
   appointment: null,
+  addOnServices: null,
   fetchCategories: () => {},
   fetchServices: _ => {},
+  fetchAddOnServices: () => {},
   fetchServicesByCategory: _ => {},
   fetchStaffAvailability: (_1, _2) => {},
   fetchStaff: _ => {},
@@ -55,6 +59,9 @@ const ServiceContextProvider: React.SFC<{ children: any }> = ({ children }) => {
 
   const [appointment, fetchAppointment] = useDataFetch(getAppointment);
   const [staff, fetchStaff] = useDataFetch(getStaff);
+  const [addOnServices, fetchAddOnServices] = useDataFetch(() =>
+    getServices(3)
+  );
   return (
     <ServiceContext.Provider
       value={{
@@ -63,13 +70,15 @@ const ServiceContextProvider: React.SFC<{ children: any }> = ({ children }) => {
         services,
         staff,
         appointment,
+        addOnServices: addOnServices && addOnServices.services,
         staffAvailability: staffAvailability && staffAvailability.staffs,
         fetchCategories,
         fetchServicesByCategory,
         fetchServices,
         fetchStaffAvailability,
         fetchStaff,
-        fetchAppointment
+        fetchAppointment,
+        fetchAddOnServices
       }}
     >
       {children}

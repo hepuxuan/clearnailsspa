@@ -16,6 +16,13 @@ module.exports = {
           image: "/public/foot.jpg",
           createdAt: new Date(),
           updatedAt: new Date()
+        },
+        {
+          id: 3,
+          name: "ADD ON",
+          image: "",
+          createdAt: new Date(),
+          updatedAt: new Date()
         }
       ],
       {}

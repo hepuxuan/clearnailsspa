@@ -2,7 +2,11 @@ import { Category } from "../models/category";
 async function getCategories(): Promise<{ categories: Category[] }> {
   const res = await fetch("/api/category");
   if (res.status === 200) {
-    return res.json();
+    const categories = await res.json();
+    return {
+      // remove ads-on services
+      categories: categories.categories.filter(({ id }) => id !== 3)
+    };
   } else {
     throw new Error();
   }

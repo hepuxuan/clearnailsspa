@@ -3,6 +3,7 @@ import styles from "./index.css";
 import buttonStyles from "../button.css";
 import { ViewContext } from "../../../context/ViewContext";
 import Measure from "react-measure";
+import { isMobile } from "../../../utils";
 
 const Footer: React.SFC<{}> = () => {
   const { isFooterVisible, setFooterHeight } = React.useContext(ViewContext);
@@ -13,7 +14,11 @@ const Footer: React.SFC<{}> = () => {
   return (
     <Measure
       onResize={({ entry }) => {
-        setFooterHeight(entry.height);
+        if (isMobile()) {
+          setFooterHeight(0);
+        } else {
+          setFooterHeight(entry.height);
+        }
       }}
     >
       {({ measureRef }) => (

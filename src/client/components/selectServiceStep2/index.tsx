@@ -12,6 +12,7 @@ import { ViewContext } from "../../context/ViewContext";
 import { stringify } from "qs";
 import find from "lodash/find";
 import Measure from "react-measure";
+import { Service } from "../../models/category";
 
 function handleSelectCategory(e: React.SyntheticEvent<HTMLSelectElement>) {
   history.push(`/selectServiceStep2/category/${e.currentTarget.value}`);
@@ -24,7 +25,9 @@ const SelectServiceStep2Component: React.SFC<
     servicesByCategory,
     fetchServicesByCategory,
     categories,
-    fetchCategories
+    addOnServices,
+    fetchCategories,
+    fetchAddOnServices
   } = React.useContext(ServiceContext);
   const { setIsFooterVisible, setFooterHeight } = React.useContext(ViewContext);
   React.useEffect(() => {
@@ -33,9 +36,7 @@ const SelectServiceStep2Component: React.SFC<
 
   React.useEffect(() => {
     fetchCategories();
-  }, []);
-
-  React.useEffect(() => {
+    fetchAddOnServices();
     setIsFooterVisible(false);
     return () => {
       setIsFooterVisible(true);
@@ -94,45 +95,27 @@ const SelectServiceStep2Component: React.SFC<
         <div className={`${gridStyles.grid} ${gridStyles.gutter6}`}>
           {servicesByCategory &&
             servicesByCategory.map(service => {
-              const ifSelected = find(selected, ({ id }) => id === service.id);
               return (
-                <a
-                  className={`${cardStyles.card} ${styles.serviceCard} ${
-                    ifSelected ? styles.selected : ""
-                  }`}
+                <ServiceCard
                   key={service.id}
-                  href="/"
-                  onClick={e => {
-                    e.preventDefault();
-                    if (ifSelected) {
-                      setSelected(
-                        selected.filter(({ id }) => id !== service.id)
-                      );
-                    } else {
-                      setSelected([
-                        ...selected.filter(
-                          ({ categoryId }) => service.categoryId !== categoryId
-                        ),
-                        service
-                      ]);
-                    }
-                  }}
-                >
-                  <div className={styles.serviceLine1}>
-                    {service.name}
-                    <div>
-                      <span className={styles.price}>${service.price}</span>
-                      {ifSelected && (
-                        <i className={`material-icons ${styles.checkIcon}`}>
-                          check
-                        </i>
-                      )}
-                    </div>
-                  </div>
-                  <div className={styles.description}>
-                    {service.description}
-                  </div>
-                </a>
+                  service={service}
+                  selected={selected}
+                  setSelected={setSelected}
+                />
+              );
+            })}
+        </div>
+        <div className={styles.subTitle}>ADD-ON SERVICE</div>
+        <div className={`${gridStyles.grid} ${gridStyles.gutter6}`}>
+          {addOnServices &&
+            addOnServices.map(service => {
+              return (
+                <ServiceCard
+                  key={service.id}
+                  service={service}
+                  selected={selected}
+                  setSelected={setSelected}
+                />
               );
             })}
         </div>
@@ -169,5 +152,45 @@ const SelectServiceStep2Component: React.SFC<
 };
 
 const SelectServiceStep2 = withRouter(SelectServiceStep2Component);
+
+const ServiceCard: React.SFC<{
+  service: Service;
+  selected: Service[];
+  setSelected: (services: Service[]) => void;
+}> = ({ selected, service, setSelected }) => {
+  const ifSelected = find(selected, ({ id }) => id === service.id);
+  return (
+    <a
+      className={`${cardStyles.card} ${styles.serviceCard} ${
+        ifSelected ? styles.selected : ""
+      }`}
+      href="/"
+      onClick={e => {
+        e.preventDefault();
+        if (ifSelected) {
+          setSelected(selected.filter(({ id }) => id !== service.id));
+        } else {
+          setSelected([
+            ...selected.filter(
+              ({ categoryId }) => service.categoryId !== categoryId
+            ),
+            service
+          ]);
+        }
+      }}
+    >
+      <div className={styles.serviceLine1}>
+        {service.name}
+        <div>
+          <span className={styles.price}>${service.price}</span>
+          {ifSelected && (
+            <i className={`material-icons ${styles.checkIcon}`}>check</i>
+          )}
+        </div>
+      </div>
+      <div className={styles.description}>{service.description}</div>
+    </a>
+  );
+};
 
 export { SelectServiceStep2 };

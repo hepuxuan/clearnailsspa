@@ -79,6 +79,28 @@ module.exports = {
           price: 50,
           createdAt: new Date(),
           updatedAt: new Date()
+        },
+        {
+          id: 8,
+          name: "Nails Design",
+          categoryId: 3,
+          duration: 5,
+          description:
+            "Cras eget commodo mauris. Etiam non ligula nec urna tempor rhoncus ac sit amet nibh. Urna tempor rhoncus ac sit amet nibh.",
+          price: 50,
+          createdAt: new Date(),
+          updatedAt: new Date()
+        },
+        {
+          id: 9,
+          name: "Waxi",
+          categoryId: 3,
+          duration: 5,
+          description:
+            "Cras eget commodo mauris. Etiam non ligula nec urna tempor rhoncus ac sit amet nibh. Urna tempor rhoncus ac sit amet nibh.",
+          price: 50,
+          createdAt: new Date(),
+          updatedAt: new Date()
         }
       ],
       {}
