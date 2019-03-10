@@ -60,11 +60,6 @@
   align-items: center;
 }
 
-a.activeLink {
-  color: #fff;
-  background: #3ac0ea !important;
-}
-
 .leftButton i,
 .rightButton i {
   font-size: 16px;

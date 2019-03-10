@@ -8,6 +8,10 @@ body {
   box-sizing: border-box;
 }
 
+a:hover {
+  cursor: pointer;
+}
+
 .mainApp {
   max-width: 1140px;
   margin: 1px auto;

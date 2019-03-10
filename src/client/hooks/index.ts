@@ -13,4 +13,18 @@ function useDataFetch<T>(
   return [data, fetchData];
 }
 
-export { useDataFetch };
+function useModalState(): [boolean, () => void, () => void] {
+  const [isOpen, setIsOpen] = React.useState(false);
+
+  function openModal() {
+    setIsOpen(true);
+  }
+
+  function closeModal() {
+    setIsOpen(false);
+  }
+
+  return [isOpen, openModal, closeModal];
+}
+
+export { useDataFetch, useModalState };

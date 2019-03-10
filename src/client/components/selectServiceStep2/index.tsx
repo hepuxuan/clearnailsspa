@@ -55,7 +55,9 @@ const SelectServiceStep2Component: React.SFC<
             categories.map(category => (
               <div
                 style={{
-                  backgroundImage: `url("${category.image}")`
+                  backgroundImage: `linear-gradient(270deg, rgba(70, 70, 70, 0.5) -21.64%, rgba(70, 70, 70, 0.1) 88.18%), url("${
+                    category.image
+                  }")`
                 }}
                 key={category.id}
               >

@@ -14,6 +14,8 @@ import { Stepper } from "../common/stepper";
 import { ViewContext } from "../../context/ViewContext";
 import Measure from "react-measure";
 import { Link } from "react-router-dom";
+import { Modal } from "../common/modal";
+import { MoreModal } from "./moreModal";
 
 const SelectStaffAndTimeComponent: React.SFC<RouteComponentProps<{}>> = ({
   location
@@ -119,11 +121,15 @@ const SelectStaffAndTimeComponent: React.SFC<RouteComponentProps<{}>> = ({
               <div className={styles.name}>{staff.name}</div>
               <div className={styles.title}>{staff.title}</div>
             </div>
-            {staff.availables.map(available => (
-              <div className={styles.buttonList} key={available.date}>
-                {available.timeSlots.slice(0, 2).map(timeSlot => (
-                  <div key={timeSlot.id}>
-                    {timeSlot.isAvailable && (
+            {staff.availables.map(available => {
+              const availableSlot = available.timeSlots.filter(
+                t => t.isAvailable
+              );
+
+              return (
+                <div className={styles.buttonList} key={available.date}>
+                  {availableSlot.slice(0, 1).map(timeSlot => (
+                    <div key={timeSlot.id}>
                       <a
                         onClick={e => {
                           e.preventDefault();
@@ -144,23 +150,26 @@ const SelectStaffAndTimeComponent: React.SFC<RouteComponentProps<{}>> = ({
                       >
                         {timeSlot.name}
                       </a>
-                    )}
-                  </div>
-                ))}
-                {available.timeSlots.length > 2 && (
-                  <div>
-                    <a
-                      onClick={() => {}}
-                      className={`${buttonStyle.btn} ${buttonStyle.utility} ${
-                        buttonStyle.btnSmall
-                      }`}
-                    >
-                      More
-                    </a>
-                  </div>
-                )}
-              </div>
-            ))}
+                    </div>
+                  ))}
+                  {availableSlot.length > 1 && (
+                    <MoreModal
+                      selectedDate={selectedDate}
+                      selectedStaff={selectedStaff}
+                      selectedTimeSlot={selectedTimeSlot}
+                      availableSlot={availableSlot}
+                      staff={staff}
+                      date={available.date}
+                      onSelect={(date, staff, timeSlot) => {
+                        setDate(date);
+                        setStaff(staff);
+                        setTimeSlot(timeSlot);
+                      }}
+                    />
+                  )}
+                </div>
+              );
+            })}
           </div>
         ))}
       <Measure

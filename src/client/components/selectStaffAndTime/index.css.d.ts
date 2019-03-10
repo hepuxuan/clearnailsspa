@@ -5,7 +5,6 @@ export const dateLabel: string;
 export const staffRow: string;
 export const datatimePicker: string;
 export const leftButton: string;
-export const activeLink: string;
 export const rightButton: string;
 export const name: string;
 export const title: string;
